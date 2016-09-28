@@ -98,7 +98,7 @@ public class VideoDbBuilder {
                 String videoUrl = (String) videoObj.optString("url"); // Get the first video only.
 
                 JSONArray images = video.optJSONArray("image");
-                JSONObject image= images.getJSONObject(0);
+                JSONObject image = images.getJSONObject(0);
                 String bgImageUrl = "";
                 String cardImageUrl = image.getString("url");
                 String studio = "";
