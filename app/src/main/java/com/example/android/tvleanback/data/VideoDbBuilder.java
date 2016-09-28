@@ -39,16 +39,6 @@ import java.util.List;
  * to be placed into a local database
  */
 public class VideoDbBuilder {
-    public static final String TAG_MEDIA = "videos";
-    public static final String TAG_GOOGLE_VIDEOS = "googlevideos";
-    public static final String TAG_CATEGORY = "category";
-    public static final String TAG_STUDIO = "studio";
-    public static final String TAG_SOURCES = "sources";
-    public static final String TAG_DESCRIPTION = "description";
-    public static final String TAG_CARD_THUMB = "card";
-    public static final String TAG_BACKGROUND = "background";
-    public static final String TAG_TITLE = "title";
-
     private static final String TAG = "VideoDbBuilder";
 
     private Context mContext;
@@ -68,10 +58,9 @@ public class VideoDbBuilder {
      * Fetches JSON data representing videos from a server and populates that in a database
      * @param url The location of the video list
      */
-    public @NonNull List<ContentValues> fetch(String url)
-            throws IOException, JSONException {
+    public @NonNull List<ContentValues> fetch(String url, String videos_url) throws IOException, JSONException {
         JSONObject videoData = fetchJSON(url);
-        return buildMedia(videoData);
+        return buildMedia(videoData, videos_url);
     }
 
     /**
@@ -79,33 +68,40 @@ public class VideoDbBuilder {
      * @param jsonObj The JSON object of videos
      * @throws JSONException if the JSON object is invalid
      */
-    public List<ContentValues> buildMedia(JSONObject jsonObj) throws JSONException {
+    public List<ContentValues> buildMedia(JSONObject jsonObj, String videos_url) throws IOException, JSONException {
 
-        JSONArray categoryArray = jsonObj.getJSONArray(TAG_GOOGLE_VIDEOS);
+        JSONArray categoryArray = jsonObj.getJSONArray("data");
         List<ContentValues> videosToInsert = new ArrayList<>();
 
         for (int i = 0; i < categoryArray.length(); i++) {
             JSONArray videoArray;
 
             JSONObject category = categoryArray.getJSONObject(i);
-            String categoryName = category.getString(TAG_CATEGORY);
-            videoArray = category.getJSONArray(TAG_MEDIA);
+            String categoryName = category.getString("name");
+            String categoryId = category.getString("category_id");
+
+            // Get a list of content for each Video Category.
+            String videos_url_full = videos_url + "?" + categoryId;
+            JSONObject videoListData = this.fetchJSON(videos_url_full);
+
+            videoArray = videoListData.getJSONArray("data");
 
             for (int j = 0; j < videoArray.length(); j++) {
                 JSONObject video = videoArray.getJSONObject(j);
 
-                // If there are no URLs, skip this video entry.
-                JSONArray urls = video.optJSONArray(TAG_SOURCES);
-                if (urls == null || urls.length() == 0) {
-                    continue;
-                }
+                JSONObject renditions = video.getJSONObject("renditions");
+                JSONArray mp4s = renditions.optJSONArray("mp4");
 
-                String title = video.optString(TAG_TITLE);
-                String description = video.optString(TAG_DESCRIPTION);
-                String videoUrl = (String) urls.get(0); // Get the first video only.
-                String bgImageUrl = video.optString(TAG_BACKGROUND);
-                String cardImageUrl = video.optString(TAG_CARD_THUMB);
-                String studio = video.optString(TAG_STUDIO);
+                String title = video.optString("title");
+                String description = video.optString("description");
+                JSONObject videoObj = mp4s.getJSONObject(0);
+                String videoUrl = (String) videoObj.optString("url"); // Get the first video only.
+
+                JSONArray images = video.optJSONArray("image");
+                JSONObject image= images.getJSONObject(0);
+                String bgImageUrl = "";
+                String cardImageUrl = image.getString("url");
+                String studio = "";
 
                 ContentValues videoValues = new ContentValues();
                 videoValues.put(VideoContract.VideoEntry.COLUMN_CATEGORY, categoryName);

@@ -47,12 +47,9 @@ public class FetchVideoService extends IntentService {
         VideoDbBuilder builder = new VideoDbBuilder(getApplicationContext());
 
         try {
-            List<ContentValues> contentValuesList =
-                    builder.fetch(getResources().getString(R.string.catalog_url));
-            ContentValues[] downloadedVideoContentValues =
-                    contentValuesList.toArray(new ContentValues[contentValuesList.size()]);
-            getApplicationContext().getContentResolver().bulkInsert(VideoContract.VideoEntry.CONTENT_URI,
-                    downloadedVideoContentValues);
+            List<ContentValues> contentValuesList = builder.fetch(getResources().getString(R.string.catalog_url), getResources().getString(R.string.videos_url));
+            ContentValues[] downloadedVideoContentValues = contentValuesList.toArray(new ContentValues[contentValuesList.size()]);
+            getApplicationContext().getContentResolver().bulkInsert(VideoContract.VideoEntry.CONTENT_URI, downloadedVideoContentValues);
         } catch (IOException | JSONException e) {
             Log.e(TAG, "Error occurred in downloading videos");
             e.printStackTrace();

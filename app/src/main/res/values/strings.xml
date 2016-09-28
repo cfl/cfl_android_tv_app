@@ -36,7 +36,9 @@
 
     <string name="search_results">Search results for \'%1$s\'</string>
     <string name="no_search_results">No search results found for \'%1$s\'</string>
-    <string name="catalog_url">https://storage.googleapis.com/android-tv/android_tv_videos_new.json</string>
+    <!-- <string name="catalog_url">https://storage.googleapis.com/android-tv/android_tv_videos_new.json</string> -->
+    <string name="catalog_url">http://www.cfl.ca/?feed=feed-youi-videocategories</string>
+    <string name="videos_url">http://www.cfl.ca/?feed=feed-youi-videos&amp;category_id=</string>
 
     <!-- Error messages -->
 
