@@ -69,7 +69,6 @@ public class VideoDbBuilder {
      * @throws JSONException if the JSON object is invalid
      */
     public List<ContentValues> buildMedia(JSONObject jsonObj, String videos_url) throws IOException, JSONException {
-
         JSONArray categoryArray = jsonObj.getJSONArray("data");
         List<ContentValues> videosToInsert = new ArrayList<>();
 
@@ -97,10 +96,9 @@ public class VideoDbBuilder {
                 JSONObject videoObj = mp4s.getJSONObject(0);
                 String videoUrl = (String) videoObj.optString("url"); // Get the first video only.
 
-                JSONArray images = video.optJSONArray("image");
-                JSONObject image = images.getJSONObject(0);
+                JSONObject image = video.getJSONObject("image");
                 String bgImageUrl = "";
-                String cardImageUrl = image.getString("url");
+                String cardImageUrl = image.optString("url");
                 String studio = "";
 
                 ContentValues videoValues = new ContentValues();
