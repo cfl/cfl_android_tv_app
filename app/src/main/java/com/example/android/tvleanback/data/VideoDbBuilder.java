@@ -72,6 +72,7 @@ public class VideoDbBuilder {
         JSONArray categoryArray = jsonObj.getJSONArray("data");
         List<ContentValues> videosToInsert = new ArrayList<>();
 
+        int k = 0;
         for (int i = 0; i < categoryArray.length(); i++) {
             JSONArray videoArray;
 
@@ -80,7 +81,7 @@ public class VideoDbBuilder {
             String categoryId = category.getString("category_id");
 
             // Get a list of content for each Video Category.
-            String videos_url_full = videos_url + "?" + categoryId;
+            String videos_url_full = videos_url + categoryId;
             JSONObject videoListData = this.fetchJSON(videos_url_full);
 
             videoArray = videoListData.getJSONArray("data");
@@ -93,8 +94,15 @@ public class VideoDbBuilder {
 
                 String title = video.optString("title");
                 String description = video.optString("description");
+                if ((mp4s.isNull(0))) {
+                    continue;
+                }
                 JSONObject videoObj = mp4s.getJSONObject(0);
+                if ((videoObj.optString("url")) == null) { Log.v("APPT", "No url for this object, skipping"); continue; }
                 String videoUrl = (String) videoObj.optString("url"); // Get the first video only.
+
+                // Add a unique string at the end of each video to force them to be seen as unique videos.
+                videoUrl = videoUrl + "?_t=" + k;
 
                 JSONObject image = video.getJSONObject("image");
                 String bgImageUrl = "";
@@ -133,6 +141,8 @@ public class VideoDbBuilder {
                 videoValues.put(VideoContract.VideoEntry.COLUMN_VIDEO_HEIGHT, 720);
 
                 videosToInsert.add(videoValues);
+
+                k++;
             }
         }
         return videosToInsert;
