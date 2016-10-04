@@ -43,6 +43,7 @@ public class VideoDbHelper extends SQLiteOpenHelper {
         final String SQL_CREATE_VIDEO_TABLE = "CREATE TABLE " + VideoEntry.TABLE_NAME + " (" +
                 VideoEntry._ID + " INTEGER PRIMARY KEY," +
                 VideoEntry.COLUMN_CATEGORY + " TEXT NOT NULL, " +
+                VideoEntry.COLUMN_CAT_IMG + " TEXT NOT NULL, " +
                 VideoEntry.COLUMN_VIDEO_URL + " TEXT UNIQUE NOT NULL, " + // Make the URL unique.
                 VideoEntry.COLUMN_NAME + " TEXT NOT NULL, " +
                 VideoEntry.COLUMN_DESC + " TEXT NOT NULL, " +
@@ -54,8 +55,6 @@ public class VideoDbHelper extends SQLiteOpenHelper {
                 VideoEntry.COLUMN_VIDEO_WIDTH + " INTEGER NOT NULL, " +
                 VideoEntry.COLUMN_VIDEO_HEIGHT + " INTEGER NOT NULL, " +
                 VideoEntry.COLUMN_AUDIO_CHANNEL_CONFIG + " TEXT NOT NULL, " +
-                VideoEntry.COLUMN_PURCHASE_PRICE + " TEXT NOT NULL, " +
-                VideoEntry.COLUMN_RENTAL_PRICE + " TEXT NOT NULL, " +
                 VideoEntry.COLUMN_RATING_STYLE + " TEXT NOT NULL, " +
                 VideoEntry.COLUMN_RATING_SCORE + " TEXT NOT NULL, " +
                 VideoEntry.COLUMN_PRODUCTION_YEAR + " TEXT NOT NULL, " +

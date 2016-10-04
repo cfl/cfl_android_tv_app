@@ -50,6 +50,8 @@ public final class VideoContract {
         // Column with the foreign key into the category table.
         public static final String COLUMN_CATEGORY = "category";
 
+        public static final String COLUMN_CAT_IMG = "icon_image_url";
+
         // Name of the video.
         public static final String COLUMN_NAME = SearchManager.SUGGEST_COLUMN_TEXT_1;
 
@@ -82,12 +84,6 @@ public final class VideoContract {
 
         // The audio channel configuration.
         public static final String COLUMN_AUDIO_CHANNEL_CONFIG = SearchManager.SUGGEST_COLUMN_AUDIO_CHANNEL_CONFIG;
-
-        // The purchase price of the video.
-        public static final String COLUMN_PURCHASE_PRICE = SearchManager.SUGGEST_COLUMN_PURCHASE_PRICE;
-
-        // The rental price of the video.
-        public static final String COLUMN_RENTAL_PRICE = SearchManager.SUGGEST_COLUMN_RENTAL_PRICE;
 
         // The rating style of the video.
         public static final String COLUMN_RATING_STYLE = SearchManager.SUGGEST_COLUMN_RATING_STYLE;

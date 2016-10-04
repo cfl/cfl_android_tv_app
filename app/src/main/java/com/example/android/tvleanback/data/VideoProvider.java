@@ -63,6 +63,7 @@ public class VideoProvider extends ContentProvider {
         sVideosContainingQueryBuilder.setProjectionMap(sColumnMap);
         sVideosContainingQueryColumns = new String[]{
                 VideoContract.VideoEntry._ID,
+                VideoContract.VideoEntry.COLUMN_CAT_IMG,
                 VideoContract.VideoEntry.COLUMN_NAME,
                 VideoContract.VideoEntry.COLUMN_CATEGORY,
                 VideoContract.VideoEntry.COLUMN_DESC,
@@ -75,8 +76,6 @@ public class VideoProvider extends ContentProvider {
                 VideoContract.VideoEntry.COLUMN_VIDEO_WIDTH,
                 VideoContract.VideoEntry.COLUMN_VIDEO_HEIGHT,
                 VideoContract.VideoEntry.COLUMN_AUDIO_CHANNEL_CONFIG,
-                VideoContract.VideoEntry.COLUMN_PURCHASE_PRICE,
-                VideoContract.VideoEntry.COLUMN_RENTAL_PRICE,
                 VideoContract.VideoEntry.COLUMN_RATING_STYLE,
                 VideoContract.VideoEntry.COLUMN_RATING_SCORE,
                 VideoContract.VideoEntry.COLUMN_PRODUCTION_YEAR,
@@ -117,6 +116,7 @@ public class VideoProvider extends ContentProvider {
     private static HashMap<String, String> buildColumnMap() {
         HashMap<String, String> map = new HashMap<>();
         map.put(VideoContract.VideoEntry._ID, VideoContract.VideoEntry._ID);
+        map.put(VideoContract.VideoEntry.COLUMN_CAT_IMG, VideoContract.VideoEntry.COLUMN_CAT_IMG);
         map.put(VideoContract.VideoEntry.COLUMN_NAME, VideoContract.VideoEntry.COLUMN_NAME);
         map.put(VideoContract.VideoEntry.COLUMN_DESC, VideoContract.VideoEntry.COLUMN_DESC);
         map.put(VideoContract.VideoEntry.COLUMN_CATEGORY, VideoContract.VideoEntry.COLUMN_CATEGORY);
@@ -135,10 +135,6 @@ public class VideoProvider extends ContentProvider {
                 VideoContract.VideoEntry.COLUMN_VIDEO_HEIGHT);
         map.put(VideoContract.VideoEntry.COLUMN_AUDIO_CHANNEL_CONFIG,
                 VideoContract.VideoEntry.COLUMN_AUDIO_CHANNEL_CONFIG);
-        map.put(VideoContract.VideoEntry.COLUMN_PURCHASE_PRICE,
-                VideoContract.VideoEntry.COLUMN_PURCHASE_PRICE);
-        map.put(VideoContract.VideoEntry.COLUMN_RENTAL_PRICE,
-                VideoContract.VideoEntry.COLUMN_RENTAL_PRICE);
         map.put(VideoContract.VideoEntry.COLUMN_RATING_STYLE,
                 VideoContract.VideoEntry.COLUMN_RATING_STYLE);
         map.put(VideoContract.VideoEntry.COLUMN_RATING_SCORE,

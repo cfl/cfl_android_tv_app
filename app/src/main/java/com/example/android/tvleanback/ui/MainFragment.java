@@ -51,6 +51,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.example.android.tvleanback.R;
+import com.example.android.tvleanback.CustomHeaderItem;
 import com.example.android.tvleanback.data.FetchVideoService;
 import com.example.android.tvleanback.data.VideoContract;
 import com.example.android.tvleanback.model.Video;
@@ -78,6 +79,8 @@ public class MainFragment extends BrowseFragment implements LoaderManager.Loader
     private Uri mBackgroundURI;
     private BackgroundManager mBackgroundManager;
     private static final int CATEGORY_LOADER = 123; // Unique ID for Category Loader.
+    private static final String[] CATEGORIES_PROJECTION = new String[] {"DISTINCT " + VideoContract.VideoEntry.COLUMN_CATEGORY, VideoContract.VideoEntry.COLUMN_CAT_IMG};
+
 
     // Maps a Loader Id to its CursorObjectAdapter.
     private Map<Integer, CursorObjectAdapter> mVideoCursorAdapters;
@@ -210,8 +213,7 @@ public class MainFragment extends BrowseFragment implements LoaderManager.Loader
             return new CursorLoader(
                     getActivity(),   // Parent activity context
                     VideoContract.VideoEntry.CONTENT_URI, // Table to query
-                    new String[]{"DISTINCT " + VideoContract.VideoEntry.COLUMN_CATEGORY},
-                    // Only categories
+                    CATEGORIES_PROJECTION, // Only categories
                     null, // No selection clause
                     null, // No selection arguments
                     null  // Default sort order
@@ -249,8 +251,15 @@ public class MainFragment extends BrowseFragment implements LoaderManager.Loader
                             data.getColumnIndex(VideoContract.VideoEntry.COLUMN_CATEGORY);
                     String category = data.getString(categoryIndex);
 
+                    int categoryIconIndex =
+                            data.getColumnIndex(VideoContract.VideoEntry.COLUMN_CAT_IMG);
+                    String categoryIcon = data.getString(categoryIconIndex);
+
+
                     // Create header for this category.
                     HeaderItem header = new HeaderItem(category);
+                    //CustomHeaderItem header = new CustomHeaderItem(category, categoryIcon);
+
 
                     int videoLoaderId = category.hashCode(); // Create unique int from category.
                     CursorObjectAdapter existingAdapter = mVideoCursorAdapters.get(videoLoaderId);
@@ -268,6 +277,7 @@ public class MainFragment extends BrowseFragment implements LoaderManager.Loader
                         // Start loading the videos from the database for a particular category.
                         Bundle args = new Bundle();
                         args.putString(VideoContract.VideoEntry.COLUMN_CATEGORY, category);
+                        args.putString(VideoContract.VideoEntry.COLUMN_CAT_IMG, categoryIcon);
                         getLoaderManager().initLoader(videoLoaderId, args, this);
                     } else {
                         ListRow row = new ListRow(header, existingAdapter);
@@ -329,7 +339,7 @@ public class MainFragment extends BrowseFragment implements LoaderManager.Loader
     private final class ItemViewClickedListener implements OnItemViewClickedListener {
         @Override
         public void onItemClicked(Presenter.ViewHolder itemViewHolder, Object item,
-                RowPresenter.ViewHolder rowViewHolder, Row row) {
+                                  RowPresenter.ViewHolder rowViewHolder, Row row) {
 
             if (item instanceof Video) {
                 Video video = (Video) item;
@@ -375,7 +385,7 @@ public class MainFragment extends BrowseFragment implements LoaderManager.Loader
     private final class ItemViewSelectedListener implements OnItemViewSelectedListener {
         @Override
         public void onItemSelected(Presenter.ViewHolder itemViewHolder, Object item,
-                RowPresenter.ViewHolder rowViewHolder, Row row) {
+                                   RowPresenter.ViewHolder rowViewHolder, Row row) {
             if (item instanceof Video) {
                 mBackgroundURI = Uri.parse(((Video) item).bgImageUrl);
                 startBackgroundTimer();

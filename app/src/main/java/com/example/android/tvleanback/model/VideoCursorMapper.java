@@ -38,6 +38,7 @@ public final class VideoCursorMapper extends CursorMapper {
     @Override
     protected void bindColumns(Cursor cursor) {
         idIndex = cursor.getColumnIndex(VideoContract.VideoEntry._ID);
+        idIndex = cursor.getColumnIndex(VideoContract.VideoEntry.COLUMN_CAT_IMG);
         nameIndex = cursor.getColumnIndex(VideoContract.VideoEntry.COLUMN_NAME);
         descIndex = cursor.getColumnIndex(VideoContract.VideoEntry.COLUMN_DESC);
         videoUrlIndex = cursor.getColumnIndex(VideoContract.VideoEntry.COLUMN_VIDEO_URL);

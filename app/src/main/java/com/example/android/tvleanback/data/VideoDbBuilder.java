@@ -79,6 +79,7 @@ public class VideoDbBuilder {
             JSONObject category = categoryArray.getJSONObject(i);
             String categoryName = category.getString("name");
             String categoryId = category.getString("category_id");
+            String categoryIcon = category.getString("icon_image_url");//Category Icon to be shown in left-side menu next to category name
 
             // Get a list of content for each Video Category.
             String videos_url_full = videos_url + categoryId;
@@ -111,6 +112,7 @@ public class VideoDbBuilder {
 
                 ContentValues videoValues = new ContentValues();
                 videoValues.put(VideoContract.VideoEntry.COLUMN_CATEGORY, categoryName);
+                videoValues.put(VideoContract.VideoEntry.COLUMN_CAT_IMG, categoryIcon);
                 videoValues.put(VideoContract.VideoEntry.COLUMN_NAME, title);
                 videoValues.put(VideoContract.VideoEntry.COLUMN_DESC, description);
                 videoValues.put(VideoContract.VideoEntry.COLUMN_VIDEO_URL, videoUrl);
@@ -128,10 +130,6 @@ public class VideoDbBuilder {
                         Rating.RATING_5_STARS);
                 videoValues.put(VideoContract.VideoEntry.COLUMN_RATING_SCORE, 3.5f);
                 if (mContext != null) {
-                    videoValues.put(VideoContract.VideoEntry.COLUMN_PURCHASE_PRICE,
-                            mContext.getResources().getString(R.string.buy_2));
-                    videoValues.put(VideoContract.VideoEntry.COLUMN_RENTAL_PRICE,
-                            mContext.getResources().getString(R.string.rent_2));
                     videoValues.put(VideoContract.VideoEntry.COLUMN_ACTION,
                             mContext.getResources().getString(R.string.global_search));
                 }
