@@ -180,7 +180,7 @@ public class VideoDetailsFragment extends DetailsFragment
                         new MovieDetailsOverviewLogoPresenter());
 
         detailsPresenter.setBackgroundColor(
-                ContextCompat.getColor(getActivity(), R.color.selected_background));
+                ContextCompat.getColor(getActivity(), R.color.fastlane_background));
         detailsPresenter.setInitialState(FullWidthDetailsOverviewRowPresenter.STATE_HALF);
 
         // Hook up transition element.

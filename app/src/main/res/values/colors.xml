@@ -19,7 +19,7 @@
     <color name="background_gradient_end">#DDDDDD</color>
     <color name="fastlane_background">#b5262f</color>
     <color name="search_opaque">#ffaa3f</color>
-    <color name="selected_background">#ffaa3f</color>
+    <color name="selected_background">#000000</color>
 
     <color name="default_background">#b5262f</color>
     <color name="icon_background">#4A4F51</color>

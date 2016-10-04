@@ -42,7 +42,7 @@ public class CardPresenter extends Presenter {
             ContextCompat.getColor(parent.getContext(), R.color.default_background);
         mSelectedBackgroundColor =
                 ContextCompat.getColor(parent.getContext(), R.color.selected_background);
-        mDefaultCardImage = parent.getResources().getDrawable(R.drawable.movie, null);
+        mDefaultCardImage = parent.getResources().getDrawable(R.mipmap.ic_launcher, null);
 
         ImageCardView cardView = new ImageCardView(parent.getContext()) {
             @Override
