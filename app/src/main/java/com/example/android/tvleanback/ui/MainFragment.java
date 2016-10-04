@@ -51,7 +51,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.example.android.tvleanback.R;
-import com.example.android.tvleanback.CustomHeaderItem;
 import com.example.android.tvleanback.data.FetchVideoService;
 import com.example.android.tvleanback.data.VideoContract;
 import com.example.android.tvleanback.model.Video;
@@ -258,6 +257,7 @@ public class MainFragment extends BrowseFragment implements LoaderManager.Loader
 
                     // Create header for this category.
                     HeaderItem header = new HeaderItem(category);
+                    header.setContentDescription(categoryIcon);
                     //CustomHeaderItem header = new CustomHeaderItem(category, categoryIcon);
 
 

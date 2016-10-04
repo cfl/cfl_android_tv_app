@@ -28,7 +28,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.android.tvleanback.R;
-import com.example.android.tvleanback.CustomHeaderItem;
 import com.koushikdutta.urlimageviewhelper.UrlImageViewHelper;
 
 public class IconHeaderItemPresenter extends RowHeaderPresenter {
@@ -50,17 +49,20 @@ public class IconHeaderItemPresenter extends RowHeaderPresenter {
 
     @Override
     public void onBindViewHolder(Presenter.ViewHolder viewHolder, Object item) {
-        //CustomHeaderItem headerItem = (CustomHeaderItem) ((ListRow) item).getHeaderItem();
+
         HeaderItem headerItem = ((ListRow) item).getHeaderItem();
+
         View rootView = viewHolder.view;
         rootView.setFocusable(true);
 
 
         ImageView headerIconView = (ImageView) rootView.findViewById(R.id.header_icon);
-        UrlImageViewHelper.setUrlDrawable(headerIconView, "http://d3ham790trbkqy.cloudfront.net/wp-content/uploads/2016/04/Tablet_Icon_All_Videos1.png");//headerItem.getUrl());
+
 
         TextView label = (TextView) rootView.findViewById(R.id.header_label);
         label.setText(headerItem.getName());
+
+        UrlImageViewHelper.setUrlDrawable(headerIconView, headerItem.getContentDescription() + "");
     }
 
     @Override
