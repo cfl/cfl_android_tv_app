@@ -16,13 +16,13 @@
 -->
 
 <resources>
-    <string name="app_name"><![CDATA[CFL TV]]></string>
-    <string name="browse_title"><![CDATA[CFL TV]]></string>
+    <string name="app_name"><![CDATA[CFL Overtime]]></string>
+    <string name="browse_title"><![CDATA[CFL Overtime]]></string>
     <string name="related_movies">Related Videos</string>
     <string name="vertical_grid_title"><![CDATA[Vertical Video Grid]]></string>
 
     <string name="popular_header">Popular Videos</string>
-    <string name="more_samples">More Samples</string>
+    <string name="settings_header">Settings</string>
     <string name="grid_view">Vertical Grid View</string>
     <string name="error_fragment">Error Fragment</string>
     <string name="personal_settings">Personal Settings</string>

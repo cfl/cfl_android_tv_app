@@ -132,6 +132,18 @@ public class MainFragment extends BrowseFragment implements LoaderManager.Loader
         super.onStop();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();  // Always call the superclass method first
+
+        // Reload data from the external JSON feeds (categories and videos within them).
+        Intent serviceIntent = new Intent(getActivity(), FetchVideoService.class);
+        getActivity().startService(serviceIntent);
+
+        // Reload our UI with an possibly updated set of videos.
+        getLoaderManager().initLoader(CATEGORY_LOADER, null, this);
+    }
+
     private void prepareBackgroundManager() {
         mBackgroundManager = BackgroundManager.getInstance(getActivity());
         mBackgroundManager.attach(getActivity().getWindow());
@@ -246,12 +258,10 @@ public class MainFragment extends BrowseFragment implements LoaderManager.Loader
                 // Iterate through each category entry and add it to the ArrayAdapter.
                 while (!data.isAfterLast()) {
 
-                    int categoryIndex =
-                            data.getColumnIndex(VideoContract.VideoEntry.COLUMN_CATEGORY);
+                    int categoryIndex = data.getColumnIndex(VideoContract.VideoEntry.COLUMN_CATEGORY);
                     String category = data.getString(categoryIndex);
 
-                    int categoryIconIndex =
-                            data.getColumnIndex(VideoContract.VideoEntry.COLUMN_CAT_IMG);
+                    int categoryIconIndex = data.getColumnIndex(VideoContract.VideoEntry.COLUMN_CAT_IMG);
                     String categoryIcon = data.getString(categoryIconIndex);
 
 
@@ -264,10 +274,8 @@ public class MainFragment extends BrowseFragment implements LoaderManager.Loader
                     int videoLoaderId = category.hashCode(); // Create unique int from category.
                     CursorObjectAdapter existingAdapter = mVideoCursorAdapters.get(videoLoaderId);
                     if (existingAdapter == null) {
-
                         // Map video results from the database to Video objects.
-                        CursorObjectAdapter videoCursorAdapter =
-                                new CursorObjectAdapter(new CardPresenter());
+                        CursorObjectAdapter videoCursorAdapter = new CursorObjectAdapter(new CardPresenter());
                         videoCursorAdapter.setMapper(new VideoCursorMapper());
                         mVideoCursorAdapters.put(videoLoaderId, videoCursorAdapter);
 
@@ -287,13 +295,13 @@ public class MainFragment extends BrowseFragment implements LoaderManager.Loader
                     data.moveToNext();
                 }
 
-                // Create a row for this special case with more samples.
-                HeaderItem gridHeader = new HeaderItem(getString(R.string.more_samples));
+                // Create a row for this special case for settings.
+                HeaderItem gridHeader = new HeaderItem(getString(R.string.settings_header));
                 GridItemPresenter gridPresenter = new GridItemPresenter(this);
                 ArrayObjectAdapter gridRowAdapter = new ArrayObjectAdapter(gridPresenter);
-                gridRowAdapter.add(getString(R.string.grid_view));
-                gridRowAdapter.add(getString(R.string.guidedstep_first_title));
-                gridRowAdapter.add(getString(R.string.error_fragment));
+                //gridRowAdapter.add(getString(R.string.grid_view));
+                //gridRowAdapter.add(getString(R.string.guidedstep_first_title));
+                //gridRowAdapter.add(getString(R.string.error_fragment));
                 gridRowAdapter.add(getString(R.string.personal_settings));
                 ListRow row = new ListRow(gridHeader, gridRowAdapter);
                 mCategoryRowAdapter.add(row);
