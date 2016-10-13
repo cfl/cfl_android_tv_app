@@ -79,6 +79,7 @@ public class MainFragment extends BrowseFragment implements LoaderManager.Loader
     private BackgroundManager mBackgroundManager;
     private static final int CATEGORY_LOADER = 123; // Unique ID for Category Loader.
     private static final String[] CATEGORIES_PROJECTION = new String[] {"DISTINCT " + VideoContract.VideoEntry.COLUMN_CATEGORY, VideoContract.VideoEntry.COLUMN_CAT_IMG};
+    private BrowseErrorFragment.SpinnerFragment mSpinnerFragment;
 
 
     // Maps a Loader Id to its CursorObjectAdapter.
@@ -136,9 +137,16 @@ public class MainFragment extends BrowseFragment implements LoaderManager.Loader
     public void onResume() {
         super.onResume();  // Always call the superclass method first
 
-        // Reload data from the external JSON feeds (categories and videos within them).
-        Intent serviceIntent = new Intent(getActivity(), FetchVideoService.class);
-        getActivity().startService(serviceIntent);
+        new Timer().scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                mSpinnerFragment = new BrowseErrorFragment.SpinnerFragment();
+                getFragmentManager().beginTransaction().add(R.id.main_frame, mSpinnerFragment).commit();
+                Intent serviceIntent = new Intent(getActivity(), FetchVideoService.class);
+                getActivity().startService(serviceIntent);
+                getFragmentManager().beginTransaction().remove(mSpinnerFragment).commit();
+            }
+        }, 0, 600000);//1000 milliseconds=1 second, 60000 milliseconds=1 minute
 
         // Reload our UI with an possibly updated set of videos.
         getLoaderManager().initLoader(CATEGORY_LOADER, null, this);
