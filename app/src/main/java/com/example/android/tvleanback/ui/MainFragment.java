@@ -140,11 +140,14 @@ public class MainFragment extends BrowseFragment implements LoaderManager.Loader
         new Timer().scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                mSpinnerFragment = new BrowseErrorFragment.SpinnerFragment();
-                getFragmentManager().beginTransaction().add(R.id.main_frame, mSpinnerFragment).commit();
-                Intent serviceIntent = new Intent(getActivity(), FetchVideoService.class);
-                getActivity().startService(serviceIntent);
-                getFragmentManager().beginTransaction().remove(mSpinnerFragment).commit();
+                try {
+                    mSpinnerFragment = new BrowseErrorFragment.SpinnerFragment();
+                    getFragmentManager().beginTransaction().add(R.id.main_frame, mSpinnerFragment).commit();
+                    Intent serviceIntent = new Intent(getActivity(), FetchVideoService.class);
+                    getActivity().startService(serviceIntent);
+                    getFragmentManager().beginTransaction().remove(mSpinnerFragment).commit();
+                }catch (Exception e){}
+
             }
         }, 0, 600000);//1000 milliseconds=1 second, 60000 milliseconds=1 minute
 
