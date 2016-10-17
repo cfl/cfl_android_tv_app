@@ -22,7 +22,6 @@ import android.support.v17.leanback.widget.ImageCardView;
 import android.support.v17.leanback.widget.Presenter;
 import android.support.v4.content.ContextCompat;
 import android.view.ViewGroup;
-
 import com.bumptech.glide.Glide;
 import com.example.android.tvleanback.R;
 import com.example.android.tvleanback.model.Video;

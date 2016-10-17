@@ -44,6 +44,7 @@ import android.support.v17.leanback.widget.RowPresenter;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -80,7 +81,7 @@ public class MainFragment extends BrowseFragment implements LoaderManager.Loader
     private static final int CATEGORY_LOADER = 123; // Unique ID for Category Loader.
     private static final String[] CATEGORIES_PROJECTION = new String[] {"DISTINCT " + VideoContract.VideoEntry.COLUMN_CATEGORY, VideoContract.VideoEntry.COLUMN_CAT_IMG};
     private BrowseErrorFragment.SpinnerFragment mSpinnerFragment;
-
+    private static final String TAG = "MainFragment";
 
     // Maps a Loader Id to its CursorObjectAdapter.
     private Map<Integer, CursorObjectAdapter> mVideoCursorAdapters;
@@ -141,6 +142,9 @@ public class MainFragment extends BrowseFragment implements LoaderManager.Loader
             @Override
             public void run() {
                 try {
+                    int i = 0;
+                    Log.v(TAG, "index=" + i);
+                    i++;
                     mSpinnerFragment = new BrowseErrorFragment.SpinnerFragment();
                     getFragmentManager().beginTransaction().add(R.id.main_frame, mSpinnerFragment).commit();
                     Intent serviceIntent = new Intent(getActivity(), FetchVideoService.class);
