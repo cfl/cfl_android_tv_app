@@ -25,6 +25,7 @@ import android.view.ViewGroup;
 import com.bumptech.glide.Glide;
 import com.example.android.tvleanback.R;
 import com.example.android.tvleanback.model.Video;
+import com.example.android.tvleanback.ui.CustomImageCardView;
 
 /*
  * A CardPresenter is used to generate Views and bind Objects to them on demand.
@@ -43,7 +44,7 @@ public class CardPresenter extends Presenter {
                 ContextCompat.getColor(parent.getContext(), R.color.selected_background);
         mDefaultCardImage = parent.getResources().getDrawable(R.mipmap.ic_launcher, null);
 
-        ImageCardView cardView = new ImageCardView(parent.getContext()) {
+        CustomImageCardView cardView = new CustomImageCardView(parent.getContext()) {
             @Override
             public void setSelected(boolean selected) {
                 updateCardBackgroundColor(this, selected);
@@ -57,7 +58,7 @@ public class CardPresenter extends Presenter {
         return new ViewHolder(cardView);
     }
 
-    private void updateCardBackgroundColor(ImageCardView view, boolean selected) {
+    private void updateCardBackgroundColor(CustomImageCardView view, boolean selected) {
         int color = selected ? mSelectedBackgroundColor : mDefaultBackgroundColor;
 
         // Both background colors should be set because the view's
@@ -70,7 +71,7 @@ public class CardPresenter extends Presenter {
     public void onBindViewHolder(Presenter.ViewHolder viewHolder, Object item) {
         Video video = (Video) item;
 
-        ImageCardView cardView = (ImageCardView) viewHolder.view;
+        CustomImageCardView cardView = (CustomImageCardView) viewHolder.view;
         cardView.setTitleText(video.title);
         cardView.setContentText(video.studio);
 
@@ -90,7 +91,7 @@ public class CardPresenter extends Presenter {
 
     @Override
     public void onUnbindViewHolder(Presenter.ViewHolder viewHolder) {
-        ImageCardView cardView = (ImageCardView) viewHolder.view;
+        CustomImageCardView cardView = (CustomImageCardView) viewHolder.view;
 
         // Remove references to images so that the garbage collector can free up memory.
         cardView.setBadgeImage(null);

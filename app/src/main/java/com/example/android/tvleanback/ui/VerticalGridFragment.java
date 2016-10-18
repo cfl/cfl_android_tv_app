@@ -129,7 +129,7 @@ public class VerticalGridFragment extends android.support.v17.leanback.app.Verti
 
                 Bundle bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(
                         getActivity(),
-                        ((ImageCardView) itemViewHolder.view).getMainImageView(),
+                        ((CustomImageCardView) itemViewHolder.view).getMainImageView(),
                         VideoDetailsActivity.SHARED_ELEMENT_NAME).toBundle();
                 getActivity().startActivity(intent, bundle);
             }
