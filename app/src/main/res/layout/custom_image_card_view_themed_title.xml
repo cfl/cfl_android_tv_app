@@ -19,4 +19,6 @@
     android:id="@+id/title_text"
     android:maxLines="3"
     android:inputType="textMultiLine"
+    android:paddingLeft="5dp"
+    android:paddingRight="5dp"
     style="?attr/imageCardViewTitleStyle" />
