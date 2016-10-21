@@ -60,7 +60,8 @@ public class FetchVideoService extends IntentService {
         try {
             List<ContentValues> contentValuesList = builder.fetch(getResources().getString(R.string.catalog_url), getResources().getString(R.string.videos_url));
             ContentValues[] downloadedVideoContentValues = contentValuesList.toArray(new ContentValues[contentValuesList.size()]);
-            if (downloadedVideoContentValues.length > oldVideosLength) {
+            int newDownloadedVideosLength = downloadedVideoContentValues.length;
+            if (newDownloadedVideosLength > oldVideosLength) {
                 getApplicationContext().getContentResolver().bulkInsert(VideoContract.VideoEntry.CONTENT_URI, downloadedVideoContentValues);
 
                 oldVideosLength = downloadedVideoContentValues.length;
