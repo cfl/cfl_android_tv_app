@@ -142,9 +142,6 @@ public class MainFragment extends BrowseFragment implements LoaderManager.Loader
             @Override
             public void run() {
                 try {
-                    int i = 0;
-                    Log.v(TAG, "index=" + i);
-                    i++;
                     mSpinnerFragment = new BrowseErrorFragment.SpinnerFragment();
                     getFragmentManager().beginTransaction().add(R.id.main_frame, mSpinnerFragment).commit();
                     Intent serviceIntent = new Intent(getActivity(), FetchVideoService.class);
@@ -153,10 +150,10 @@ public class MainFragment extends BrowseFragment implements LoaderManager.Loader
                 }catch (Exception e){}
 
             }
-        }, 0, 600000);//1000 milliseconds=1 second, 60000 milliseconds=1 minute
+        }, 0, 5000);//1000 milliseconds=1 second, 60000 milliseconds=1 minute
 
-        // Reload our UI with an possibly updated set of videos.
-        getLoaderManager().initLoader(CATEGORY_LOADER, null, this);
+        // Reload our UI with a possibly updated set of videos.
+        getLoaderManager().initLoader(CATEGORY_LOADER, null, this);//Maybe wrap in if statement to check if videos were updated from FetchVideoService, if so, run this line, if not, skip it
     }
 
     private void prepareBackgroundManager() {

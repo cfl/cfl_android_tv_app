@@ -16,11 +16,18 @@
 
 package com.example.android.tvleanback.data;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.support.v7.preference.PreferenceManager;
 
 import com.example.android.tvleanback.data.VideoContract.VideoEntry;
+
+import static com.example.android.tvleanback.data.VideoContract.VideoEntry.CURRENT_DB_SIZE_KEY;
+import static com.example.android.tvleanback.data.VideoContract.VideoEntry.TABLE_NAME;
 
 /**
  * VideoDbHelper manages the creation and upgrade of the database used in this sample.
@@ -29,18 +36,21 @@ public class VideoDbHelper extends SQLiteOpenHelper {
 
     // Change this when you change the database schema.
     private static final int DATABASE_VERSION = 4;
+//    private Context appContext;
+//    public int numCurrRows;
 
     // The name of our database.
     private static final String DATABASE_NAME = "leanback.db";
 
     public VideoDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+//        this.appContext = context;
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
         // Create a table to hold videos.
-        final String SQL_CREATE_VIDEO_TABLE = "CREATE TABLE " + VideoEntry.TABLE_NAME + " (" +
+        final String SQL_CREATE_VIDEO_TABLE = "CREATE TABLE " + TABLE_NAME + " (" +
                 VideoEntry._ID + " INTEGER PRIMARY KEY," +
                 VideoEntry.COLUMN_CATEGORY + " TEXT NOT NULL, " +
                 VideoEntry.COLUMN_CAT_IMG + " TEXT NOT NULL, " +
@@ -64,12 +74,21 @@ public class VideoDbHelper extends SQLiteOpenHelper {
 
         // Do the creating of the databases.
         db.execSQL(SQL_CREATE_VIDEO_TABLE);
+
+//        numCurrRows = (int)DatabaseUtils.queryNumEntries(db, TABLE_NAME);
+//
+//        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(appContext);
+//
+//        SharedPreferences.Editor editor = prefs.edit();
+//        editor.putInt(CURRENT_DB_SIZE_KEY, numCurrRows);
+//        editor.apply();
+
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // Simply discard all old data and start over when upgrading.
-        db.execSQL("DROP TABLE IF EXISTS " + VideoEntry.TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
         onCreate(db);
     }
 

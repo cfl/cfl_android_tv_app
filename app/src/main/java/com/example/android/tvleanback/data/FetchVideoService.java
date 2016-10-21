@@ -19,6 +19,8 @@ package com.example.android.tvleanback.data;
 import android.app.IntentService;
 import android.content.ContentValues;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.support.v7.preference.PreferenceManager;
 import android.util.Log;
 
 import com.example.android.tvleanback.R;
@@ -28,12 +30,16 @@ import org.json.JSONException;
 import java.io.IOException;
 import java.util.List;
 
+import static com.example.android.tvleanback.data.VideoContract.VideoEntry.CURRENT_DB_SIZE_KEY;
+
 /**
  * FetchVideoService is responsible for fetching the videos from the Internet and inserting the
  * results into a local SQLite database.
  */
 public class FetchVideoService extends IntentService {
     private static final String TAG = "FetchVideoService";
+    int oldVideosLength = 0;
+
 
     /**
      * Creates an IntentService with a default name for the worker thread.
@@ -44,12 +50,25 @@ public class FetchVideoService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent workIntent) {
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+
+        oldVideosLength = prefs.getInt(CURRENT_DB_SIZE_KEY, 1);
+
         VideoDbBuilder builder = new VideoDbBuilder(getApplicationContext());
 
         try {
             List<ContentValues> contentValuesList = builder.fetch(getResources().getString(R.string.catalog_url), getResources().getString(R.string.videos_url));
             ContentValues[] downloadedVideoContentValues = contentValuesList.toArray(new ContentValues[contentValuesList.size()]);
-            getApplicationContext().getContentResolver().bulkInsert(VideoContract.VideoEntry.CONTENT_URI, downloadedVideoContentValues);
+            if (downloadedVideoContentValues.length > oldVideosLength) {
+                getApplicationContext().getContentResolver().bulkInsert(VideoContract.VideoEntry.CONTENT_URI, downloadedVideoContentValues);
+
+                oldVideosLength = downloadedVideoContentValues.length;
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putInt(CURRENT_DB_SIZE_KEY, oldVideosLength);
+                editor.apply();
+            }
+
         } catch (IOException | JSONException e) {
             Log.e(TAG, "Error occurred in downloading videos");
             e.printStackTrace();
