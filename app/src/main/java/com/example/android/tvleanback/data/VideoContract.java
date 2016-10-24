@@ -105,6 +105,7 @@ public final class VideoContract {
             return ContentUris.withAppendedId(CONTENT_URI, id);
         }
 
-        public static final String CURRENT_DB_SIZE_KEY = "cflCurrentDBSize";
+        public static final String CURRENT_DB_WAS_REFRESHED = "cflWasRefreshed";
+        public static final String CURRENT_DB_LAST_VIDEO_STR = "cflCurrentLastVidStr";
     }
 }

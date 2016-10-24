@@ -26,7 +26,6 @@ import android.support.v7.preference.PreferenceManager;
 
 import com.example.android.tvleanback.data.VideoContract.VideoEntry;
 
-import static com.example.android.tvleanback.data.VideoContract.VideoEntry.CURRENT_DB_SIZE_KEY;
 import static com.example.android.tvleanback.data.VideoContract.VideoEntry.TABLE_NAME;
 
 /**
@@ -74,14 +73,6 @@ public class VideoDbHelper extends SQLiteOpenHelper {
 
         // Do the creating of the databases.
         db.execSQL(SQL_CREATE_VIDEO_TABLE);
-
-//        numCurrRows = (int)DatabaseUtils.queryNumEntries(db, TABLE_NAME);
-//
-//        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(appContext);
-//
-//        SharedPreferences.Editor editor = prefs.edit();
-//        editor.putInt(CURRENT_DB_SIZE_KEY, numCurrRows);
-//        editor.apply();
 
     }
 

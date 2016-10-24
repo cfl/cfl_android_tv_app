@@ -686,7 +686,7 @@ public class PlaybackOverlayFragment
 
                 Bundle bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(
                         getActivity(),
-                        ((CustomImageCardView) itemViewHolder.view).getMainImageView(),
+                        ((ImageCardView) itemViewHolder.view).getMainImageView(),
                         VideoDetailsActivity.SHARED_ELEMENT_NAME).toBundle();
                 getActivity().startActivity(intent, bundle);
             }
