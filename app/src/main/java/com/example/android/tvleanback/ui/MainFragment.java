@@ -80,7 +80,6 @@ public class MainFragment extends BrowseFragment implements LoaderManager.Loader
     private BackgroundManager mBackgroundManager;
     private static final int CATEGORY_LOADER = 123; // Unique ID for Category Loader.
     private static final String[] CATEGORIES_PROJECTION = new String[] {"DISTINCT " + VideoContract.VideoEntry.COLUMN_CATEGORY, VideoContract.VideoEntry.COLUMN_CAT_IMG};
-    private BrowseErrorFragment.SpinnerFragment mSpinnerFragment;
     private static final String TAG = "MainFragment";
 
     // Maps a Loader Id to its CursorObjectAdapter.
@@ -142,19 +141,20 @@ public class MainFragment extends BrowseFragment implements LoaderManager.Loader
             @Override
             public void run() {
                 try {
-//                    mSpinnerFragment = new BrowseErrorFragment.SpinnerFragment();
-//                    getFragmentManager().beginTransaction().add(R.id.main_frame, mSpinnerFragment).commit();
                     Intent serviceIntent = new Intent(getActivity(), FetchVideoService.class);
                     getActivity().startService(serviceIntent);
-//                    getFragmentManager().beginTransaction().remove(mSpinnerFragment).commit();
+
+                    // Reload our UI with a possibly updated set of videos.
+                    reloadUI();
                 }catch (Exception e){}
 
             }
-        }, 0, 5000);//1000 milliseconds=1 second, 60000 milliseconds=1 minute
+        }, 0, 600000); // 1000 milliseconds = 1 second; 600000 milliseconds = 10 minutes
 
-        // Reload our UI with a possibly updated set of videos.
+    }
 
-        getLoaderManager().initLoader(CATEGORY_LOADER, null, this);//Maybe wrap in if statement to check if videos were updated from FetchVideoService, if so, run this line, if not, skip it
+    private void reloadUI() {
+        getLoaderManager().initLoader(CATEGORY_LOADER, null, this);
     }
 
     private void prepareBackgroundManager() {
